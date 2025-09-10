@@ -11,7 +11,7 @@
         <div class="col-lg-9 col-md-9 col-sm-9" style="padding: 0px">
             <div class="schedule-container e-droppable">
                 <SfSchedule ID="schedule" TValue="Hospital" @ref="scheduleObj" Width="100%" Height="800px" EnableAutoRowHeight="true" CssClass="doctor-appointment-planner" ShowWeekend="false" StartHour="@startHour" EndHour="@endHour" @bind-SelectedDate="@currentDate" WorkDays="@workDay" FirstDayOfWeek="@calendarDayOfWeek" @bind-CurrentView="@sceduleView">
-                    <ScheduleEvents TValue="Hospital" OnPopupOpen="OnPopupOpen" OnActionBegin="OnActionBegin"></ScheduleEvents>
+                    <ScheduleEvents TValue="Hospital" OnPopupOpen="OnPopupOpen" OnPopupClose="OnPopupClose" OnActionBegin="OnActionBegin"></ScheduleEvents>
                     <ScheduleWorkHours Start="08:00" End="21:00"></ScheduleWorkHours>
                     <ScheduleEventSettings DataSource="@scheduleEventData" ResourceColorField="@resourceColorField" AllowEditFollowingEvents="@editUpcoming">
                         <ScheduleField>
@@ -160,7 +160,7 @@ else{
     private Query queryData { get; set; }
     private List<Doctor> activeDoctorData { get; set; }
     private bool isDataLoaded;
-
+    private int? draggedItemID = null;
     protected override void OnInitialized()
     {
         sceduleView = (View)Enum.Parse(typeof(View), (Service.CalendarSettings.CurrentView as string));
@@ -209,10 +209,27 @@ else{
         args.Cancel = args.Type == PopupType.QuickInfo && args.Data.Id < 1;
     }
 
+    public void OnPopupClose(PopupCloseEventArgs<Hospital> args)
+    {
+        if (args.Type == PopupType.Editor && draggedItemID != null && args.CurrentAction == CurrentAction.Cancel)
+        {
+            draggedItemID = null;
+        }
+    }
+
     public void OnActionBegin(Syncfusion.Blazor.Schedule.ActionEventArgs<Hospital> args)
     {
         if (args.ActionType == ActionType.EventCreate && args.AddedRecords.Count > 0)
         {
+            if (draggedItemID != null)
+            {
+                var item = waitingList.FirstOrDefault(w => w.Id == draggedItemID);
+                if (item != null)
+                {
+                    waitingList.Remove(item);
+                }
+                draggedItemID = null;
+            }
             foreach(Hospital Data in args.AddedRecords)
             {
                 Random random = new Random();
@@ -390,7 +407,7 @@ else{
             }
             if (TreeData != null)
             {
-                waitingList.Remove(TreeData);
+                draggedItemID = TreeData.Id;
             }
             await this.scheduleObj.OpenEditorAsync(eventData, CurrentAction.Add);
         }
