@@ -255,7 +255,7 @@ else
         if (saveButton == "Save")
         {
             getRecord = new Patient(Service.Patients.LastOrDefault().Id + 1, patientEditModel.Name, patientEditModel.Name, patientEditModel.DOB, mobileNo, patientEditModel.Email, Service.Patients[0].Address, Service.Patients[0].Disease, Service.Patients[0].DepartmentName, patientEditModel.BloodGroup, patientEditModel.Gender, patientEditModel.Symptoms);
-            await gridObj.AddRecord(getRecord, Service.Patients.Count());
+            await gridObj.AddRecordAsync(getRecord, Service.Patients.Count());
             filteredPatients = Service.Patients;
             message = " " + getRecord.Name + " for " + getRecord.Symptoms;
             name = "Added New Patient";
@@ -263,7 +263,7 @@ else
         else
         {
             getRecord = new Patient(activePatientData.Id, patientEditModel.Name, patientEditModel.Name, patientEditModel.DOB, mobileNo, patientEditModel.Email, activePatientData.Address, activePatientData.Disease, activePatientData.DepartmentName, patientEditModel.BloodGroup, patientEditModel.Gender, patientEditModel.Symptoms);
-            await gridObj.UpdateRow((activePatientData.Id - 1), getRecord);
+            await gridObj.UpdateRowAsync((activePatientData.Id - 1), getRecord);
             message = " " + getRecord.Name + " for " + getRecord.Symptoms;
             name = "Updated Patient";
         }
@@ -347,7 +347,7 @@ else
         Service.Patients = filteredPatients = ((List<Patient>)filteredPatients).Where(item => item.Id != activePatientData.Id).ToList();
         Service.WaitingLists = Service.WaitingLists.Where(item => item.PatientId != activePatientData.Id).ToList();
         var deleteData = ((List<Patient>)filteredPatients).Where(item => item.Id == activePatientData.Id).FirstOrDefault();
-        await this.gridObj.DeleteRecord(null, deleteData);
+        await this.gridObj.DeleteRecordAsync(null, deleteData);
 
         this.showGridEditDialog = false;
         this.IsShowPatientEditDialog = false;
