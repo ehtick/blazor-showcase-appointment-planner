@@ -6,10 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-   	<DefineConstants>Release</DefineConstants>
-  </PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Syncfusion.Blazor.Buttons" Version="32.1.19" />
 		<PackageReference Include="Syncfusion.Blazor.Charts" Version="32.1.19" />
