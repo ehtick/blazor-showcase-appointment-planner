@@ -1,8 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@inject NavigationManager Urihelper
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-        <!-- Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <!-- Load GTM-P3WXFWCW immediately on page load  -->
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
@@ -20,6 +22,7 @@
     <meta name="description" content="Appointment Planner is a single page application for demonstrating Syncfusion Blazor Components features in a real-world scenario with dashboard like layout." />
     <title>Appointment Planner - Syncfusion Blazor Components Showcase App</title>
     <base href="/" />
+    <link href=@Urihelper.Uri rel="canonical" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link href="_content/Syncfusion.Blazor.Themes/bootstrap.css" rel="stylesheet" />
@@ -57,7 +60,14 @@
 <body class="e-app-mainpage">
     <Routes @rendermode="@InteractiveServer" />
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WLQL39J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!--Page Load-->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P3WXFWCW" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!--Interaction-->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W8WD8WN" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div hidden id="sync-analytics" data-queue="Syncfusion - Showcase - Blazor - AppointmentPlanner"></div>
     <script src="_framework/blazor.web.js"></script>
